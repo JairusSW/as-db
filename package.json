@@ -1,0 +1,53 @@
+{
+  "name": "as-rocks",
+  "version": "0.0.0",
+  "description": "RocksDB bindings for AssemblyScript",
+  "types": "assembly/index.ts",
+  "author": "Steer Protocol",
+  "contributors": [
+    "Jairus Tanaka"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build:test": "asc assembly/test.ts -o build/test.wasm --runPasses asyncify --optimizeLevel 0 --shrinkLevel 0 --noAssert --uncheckedBehavior always --runtime stub --textFile build/test.wat --bindings raw --exportRuntime",
+    "test:wasmtime": "wasmtime ./build/test.wasm",
+    "test:wavm": "wavm run ./build/test.wasm",
+    "test:lunatic": "lunatic ./build/test.wasm",
+    "test:wasm3": "wasm3 ./build/test.wasm",
+    "prettier": "as-prettier -w ."
+  },
+  "devDependencies": {
+    "@as-pect/cli": "^8.1.0",
+    "@as-tral/cli": "^3.0.2",
+    "@assemblyscript/wasi-shim": "^0.1.0",
+    "@types/node": "^20.12.7",
+    "as-bench": "^0.0.0-alpha",
+    "assemblyscript": "^0.27.22",
+    "assemblyscript-prettier": "^3.0.1",
+    "benchmark": "^2.1.4",
+    "kati": "^0.6.2",
+    "level": "^8.0.1",
+    "microtime": "^3.1.1",
+    "prettier": "^3.1.1",
+    "tinybench": "^2.5.1",
+    "typescript": "^5.3.3",
+    "visitor-as": "^0.11.4"
+  },
+  "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
+  "dependencies": { "ioredis": "^5.4.1" },
+  "overrides": {
+    "assemblyscript": "$assemblyscript"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JairusSW/as-rocks.git"
+  },
+  "keywords": [
+    "assemblyscript"
+  ],
+  "bugs": {
+    "url": "https://github.com/JairusSW/as-rocks/issues"
+  },
+  "homepage": "https://github.com/JairusSW/as-rocks#readme",
+  "type": "module"
+}
