@@ -11,6 +11,11 @@ export class LevelConnector {
         this.config = config;
         this.id = level_config(changetype<usize>(config.name));
     }
+    /*
+    query<V>(query: string): V {
+
+    }
+    */
     set<V>(key: string, value: V): void {
         if (isString<V>()) {
             // Change between encodings?
