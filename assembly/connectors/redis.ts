@@ -1,4 +1,5 @@
-import { redis_config, redis_get_string, redis_set_string } from "../bindings/redis";
+import { Box } from "as-container";
+import { redis_config, redis_get, redis_set_buffer, redis_set_float, redis_set_int, redis_set_string } from "../bindings/redis";
 
 class RedisConfig {
     //uri: string;
@@ -19,33 +20,60 @@ export class RedisConnector {
     }
     set<V>(key: string, value: V): boolean {
         if (isString<V>()) {
-            // Change between encodings?
             const result = redis_set_string(
                 this.id,
                 changetype<usize>(key),
                 changetype<usize>(value)
             );
-            if (!result) {
-                // We have an error!
-                throw new Error("Were screwed!");
-            }
+            return result;
+        } else if (isFloat<V>()) {
+            const result = redis_set_float(
+                this.id,
+                changetype<usize>(key),
+                usize(value)
+            );
+            return result;
+        } else if (isInteger<V>()) {
+            const result = redis_set_int(
+                this.id,
+                changetype<usize>(key),
+                i32(value)
+            );
+            return result;
+        } else if (idof<V>() === idof<ArrayBuffer>()) {
+            const result = redis_set_buffer(
+                this.id,
+                changetype<usize>(key),
+                changetype<usize>(value)
+            );
             return result;
         }
         return false;
     }
     //setBuffer<V>(key: ArrayBuffer, value: V): boolean {}
-    get<V>(key: string): V {
-        if (isString<V>()) {
-            const result = redis_get_string(
+    get<V>(key: string): Box<nonnull<V>> | null {
+        if (isFloat<V>()) {
+            const result = redis_get(
                 this.id,
                 changetype<usize>(key)
             );
-            if (!result) {
-                // We have an error!
-                throw new Error("Were screwed!");
-            }
-            return changetype<string>(result);
+            if (!result) return null;
+            return Box.from(reinterpret<nonnull<V>>(result));
+        } else if (isInteger<V>()) {
+            const result = redis_get(
+                this.id,
+                changetype<usize>(key)
+            );
+            if (!result) return null;
+            return Box.from(i32(result));
+        } else if (isString<V>() || idof<V>() === idof<ArrayBuffer>()) {
+            const result = redis_get(
+                this.id,
+                changetype<usize>(key)
+            );
+            if (!result) return null;
+            return Box.from(changetype<nonnull<V>>(result));
         }
-        throw new Error("unsupported type")
+        throw new Error("unsupported type");
     }
 }

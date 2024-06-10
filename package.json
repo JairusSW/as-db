@@ -37,7 +37,7 @@
     "visitor-as": "^0.11.4"
   },
   "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
-  "dependencies": { "ioredis": "^5.4.1" },
+  "dependencies": { "as-container": "^0.8.0", "ioredis": "^5.4.1" },
   "overrides": {
     "assemblyscript": "$assemblyscript"
   },
