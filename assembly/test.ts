@@ -17,16 +17,17 @@ export function initialize(): i32 {
 export function execute(): i32 {
     
     redis = new RedisConnector({
-        port: 6379
+        port: 6379,
+        host: "127.0.0.1"
     });
 
     redis!.set("foo", "bar");
 
     console.log("[foo]: " + redis!.get<string>("foo")!.unwrap());
 
-    redis!.set("foo", 314);
+    redis!.set<i32>("moo", 314);
 
-    console.log("[foo]: " + redis!.get<i32>("foo")!.unwrap().toString());
+    console.log("[foo]: " + redis!.get<i32>("moo")!.unwrap().toString());
 
     return 1;
 }
