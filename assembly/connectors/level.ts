@@ -1,4 +1,4 @@
-import { level_config, level_get_string, level_set_string } from "../bindings/level";
+import { level_config, level_del_string, level_get_string, level_has_string, level_set_string } from "../bindings/level";
 
 class LevelConfig {
     name: string;
@@ -40,5 +40,17 @@ export class LevelConnector {
             return changetype<string>(result);
         }
         throw new Error("unsupported type")
+    }
+    del(key: string): void {
+        level_del_string(
+            this.id,
+            changetype<usize>(key)
+        );
+    }
+    has(key: string): bool {
+        return level_has_string(
+            this.id,
+            changetype<usize>(key)
+        );
     }
 }

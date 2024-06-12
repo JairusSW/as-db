@@ -1,5 +1,5 @@
 import { Box } from "as-container";
-import { redis_append_buffer, redis_append_float, redis_append_int, redis_append_string, redis_config, redis_get, redis_set_buffer, redis_set_float, redis_set_int, redis_set_string } from "../bindings/redis";
+import { redis_append_buffer, redis_append_float, redis_append_int, redis_append_string, redis_config, redis_del, redis_exists, redis_get, redis_set_buffer, redis_set_float, redis_set_int, redis_set_string } from "../bindings/redis";
 import { __atoi_fast } from "../util";
 
 class RedisConfig {
@@ -113,4 +113,24 @@ export class RedisConnector {
         }
         throw new Error("unsupported type");
     }
+    del(key: string): boolean {
+        const result = redis_del(
+            this.id,
+            changetype<usize>(key)
+        );
+        if (!result) return false;
+        return true;
+    }
+    exists(key: string): boolean {
+        const result = redis_exists(
+            this.id,
+            changetype<usize>(key)
+        );
+        if (!result) return false;
+        return true;
+    }
+    quit(): void {
+        
+    }
+
 }

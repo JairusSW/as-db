@@ -11,3 +11,9 @@ export declare function redis_append_int(id: i32, key: usize, value: i32): boole
 export declare function redis_append_buffer(id: i32, key: usize, value: usize): boolean;
 
 export declare function redis_get(id: i32, key: usize): i32;
+
+export declare function redis_del(id: i32, key: usize): i32;
+
+export declare function redis_exists(id: i32, key: usize): i32;
+
+export declare function redis_quit(id: i32): i32;
